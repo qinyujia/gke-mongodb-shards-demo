@@ -24,7 +24,7 @@ spec:
       labels:
         role: mongodb-shard0
         tier: maindb
-        replicaset: Shard0RepSet
+        replicaset: shard0
     spec:
       affinity:
         podAntiAffinity:
@@ -36,7 +36,7 @@ spec:
                 - key: replicaset
                   operator: In
                   values:
-                  - Shard0RepSet
+                  - shard0
               topologyKey: kubernetes.io/hostname
       terminationGracePeriodSeconds: 10
       volumes:
@@ -54,7 +54,7 @@ spec:
             type: DirectoryOrCreate               
       containers:
         - name: mongod-shard0-container
-          image: mongo
+          image: mongo:3.6.4-jessie
           command:
             - "mongod"
             - "--port"
@@ -65,7 +65,7 @@ spec:
             - "0.0.0.0"
             - "--shardsvr"
             - "--replSet"
-            - "Shard0RepSet"
+            - "shard0"
             - "--auth"
             - "--clusterAuthMode"
             - "keyFile"
