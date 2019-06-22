@@ -60,11 +60,11 @@ spec:
             defaultMode: 256
         - name: datadir
           hostPath:
-            path: /mnt/viid/mongodb/router/data/db
+            path: /mnt/viid/mongodb/router/db
             type: DirectoryOrCreate   
         - name: configdir
           hostPath:
-            path: /mnt/viid/mongodb/router/data/configdb
+            path: /mnt/viid/mongodb/router/configdb
             type: DirectoryOrCreate                
       containers:
         - name: mongos-container

@@ -18,7 +18,7 @@ metadata:
   name: mongod-shard0
 spec:
   serviceName: mongodb-shard0-service
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -46,11 +46,11 @@ spec:
             defaultMode: 256
         - name: datadir
           hostPath:
-            path: /mnt/viid/mongodb/shard0/data/db
+            path: /mnt/viid/mongodb/shard0/db
             type: DirectoryOrCreate   
         - name: configdir
           hostPath:
-            path: /mnt/viid/mongodb/shard0/data/configdb
+            path: /mnt/viid/mongodb/shard0/configdb
             type: DirectoryOrCreate               
       containers:
         - name: mongod-shard0-container

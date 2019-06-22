@@ -46,11 +46,11 @@ spec:
             defaultMode: 256
         - name: datadir
           hostPath:
-            path: /mnt/viid/mongodb/config/data/db
+            path: /mnt/viid/mongodb/config/db
             type: DirectoryOrCreate   
         - name: configdir
           hostPath:
-            path: /mnt/viid/mongodb/config/data/configdb
+            path: /mnt/viid/mongodb/config/configdb
             type: DirectoryOrCreate               
       containers:
         - name: mongod-configdb-container
