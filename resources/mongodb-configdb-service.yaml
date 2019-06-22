@@ -6,8 +6,8 @@ metadata:
     name: mongo-configdb
 spec:
   ports:
-  - port: 27017
-    targetPort: 27017
+  - port: 27018
+    targetPort: 27018
   clusterIP: None
   selector:
     role: mongo-configdb
@@ -58,7 +58,7 @@ spec:
           command:
             - "mongod"
             - "--port"
-            - "27017"
+            - "27018"
             - "--wiredTigerCacheSizeGB"
             - "1"
             - "--bind_ip"
@@ -78,7 +78,7 @@ spec:
           #     cpu: 0.25
           #     memory: 512Mi
           ports:
-            - containerPort: 27017
+            - containerPort: 27018
           volumeMounts:
             - name: secrets-volume
               readOnly: true

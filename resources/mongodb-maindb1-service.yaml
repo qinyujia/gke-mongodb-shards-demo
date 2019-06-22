@@ -6,8 +6,8 @@ metadata:
     name: mongodb-shard1
 spec:
   ports:
-  - port: 27017
-    targetPort: 27017
+  - port: 27019
+    targetPort: 27019
   clusterIP: None
   selector:
     role: mongodb-shard1
@@ -58,7 +58,7 @@ spec:
           command:
             - "mongod"
             - "--port"
-            - "27017"
+            - "27019"
             - "--wiredTigerCacheSizeGB"
             - "20"
             - "--bind_ip"
@@ -78,7 +78,7 @@ spec:
           #     cpu: 0.25
           #     memory: 512Mi
           ports:
-            - containerPort: 27017
+            - containerPort: 27019
           volumeMounts:
             - name: secrets-volume
               readOnly: true
