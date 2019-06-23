@@ -26,6 +26,8 @@ spec:
         tier: maindb
         replicaset: shard1
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: wxec0053
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -47,11 +49,11 @@ spec:
         - name: datadir
           hostPath:
             path: /mnt/viid/mongodb/shard1/db
-            type: DirectoryOrCreate   
+            type: Directory   
         - name: configdir
           hostPath:
             path: /mnt/viid/mongodb/shard1/configdb
-            type: DirectoryOrCreate               
+            type: Directory               
       containers:
         - name: mongod-shard1-container
           image: mongo:3.6.4-jessie
@@ -66,11 +68,11 @@ spec:
             - "--shardsvr"
             - "--replSet"
             - "shard1"
-            # - "--auth"
-            # - "--clusterAuthMode"
-            # - "keyFile"
-            # - "--keyFile"
-            # - "/etc/secrets-volume/internal-auth-mongodb-keyfile"
+            - "--auth"
+            #- "--clusterAuthMode"
+            #- "keyFile"
+            - "--keyFile"
+            - "/etc/secrets-volume/internal-auth-mongodb-keyfile"
             # - "--setParameter"
             # - "authenticationMechanisms=SCRAM-SHA-1"
           # resources:

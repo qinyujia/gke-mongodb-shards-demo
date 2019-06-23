@@ -47,11 +47,11 @@ spec:
         - name: datadir
           hostPath:
             path: /mnt/viid/mongodb/config/db
-            type: DirectoryOrCreate   
+            type: Directory   
         - name: configdir
           hostPath:
             path: /mnt/viid/mongodb/config/configdb
-            type: DirectoryOrCreate               
+            type: Directory               
       containers:
         - name: mongod-configdb-container
           image: mongo:3.6.4-jessie
@@ -66,11 +66,11 @@ spec:
             - "--configsvr"
             - "--replSet"
             - "configserver"
-            # - "--auth"
-            # - "--clusterAuthMode"
-            # - "keyFile"
-            # - "--keyFile"
-            # - "/etc/secrets-volume/internal-auth-mongodb-keyfile"
+            - "--auth"
+            #- "--clusterAuthMode"
+            #- "keyFile"
+            - "--keyFile"
+            - "/etc/secrets-volume/internal-auth-mongodb-keyfile"
             # - "--setParameter"
             # - "authenticationMechanisms=SCRAM-SHA-1"
           # resources:
