@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb-replicaset1-service
+  labels:
+    name: mongodb-replicaset1
+spec:
+  ports:
+  - port: 27020
+    targetPort: 27020
+  clusterIP: None
+  selector:
+    role: mongodb-replicaset1
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: mongod-replicaset1
+spec:
+  serviceName: mongodb-replicaset1-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        role: mongodb-replicaset1
+        tier: maindb
+        replicaset: replicaset1
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: replicaset
+                  operator: In
+                  values:
+                  - replicaset1
+              topologyKey: kubernetes.io/hostname
+      terminationGracePeriodSeconds: 10
+      volumes:
+        - name: secrets-volume
+          secret:
+            secretName: shared-bootstrap-data
+            defaultMode: 256
+        - name: datadir
+          hostPath:
+            path: /mnt/viid/mongodb/replicaset1/db
+            type: Directory   
+        - name: configdir
+          hostPath:
+            path: /mnt/viid/mongodb/replicaset1/configdb
+            type: Directory               
+      containers:
+        - name: mongod-replicaset1-container
+          image: mongo:3.6.4-jessie
+          command:
+            - "mongod"
+            - "--port"
+            - "27020"
+            - "--wiredTigerCacheSizeGB"
+            - "20"
+            - "--bind_ip"
+            - "0.0.0.0"
+            - "--shardsvr"
+            - "--replSet"
+            - "shard1"
+            - "--auth"
+            - "--clusterAuthMode"
+            - "keyFile"
+            - "--keyFile"
+            - "/etc/secrets-volume/internal-auth-mongodb-keyfile"
+            # - "--setParameter"
+            # - "authenticationMechanisms=SCRAM-SHA-1"
+          # resources:
+          #   requests:
+          #     cpu: 0.25
+          #     memory: 512Mi
+          ports:
+            - containerPort: 27020
+          volumeMounts:
+            - name: secrets-volume
+              readOnly: true
+              mountPath: /etc/secrets-volume
+            - name: datadir
+              mountPath: /data/db
+            - name: configdir
+              mountPath: /data/configdb   
