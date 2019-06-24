@@ -24,7 +24,7 @@ spec:
       labels:
         role: mongodb-replicaset1
         tier: maindb
-        replicaset: replicaset1
+        replicaset: shard1
     spec:
       nodeSelector:
         kubernetes.io/hostname: wxec0053       
@@ -38,7 +38,7 @@ spec:
                 - key: replicaset
                   operator: In
                   values:
-                  - replicaset1
+                  - shard1
               topologyKey: kubernetes.io/hostname
       terminationGracePeriodSeconds: 10
       volumes:
