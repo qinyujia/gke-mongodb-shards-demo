@@ -25,9 +25,7 @@ spec:
         role: mongodb-replicaset1
         tier: maindb
         replicaset: shard1
-    spec:
-      nodeSelector:
-        kubernetes.io/hostname: wxec0053       
+    spec:      
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
