@@ -26,6 +26,8 @@ spec:
         tier: replicaset0
         replicaset: replicaset0
     spec:
+      nodeSelector:
+        kubernetes.io/hostname: wxec0052       
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
