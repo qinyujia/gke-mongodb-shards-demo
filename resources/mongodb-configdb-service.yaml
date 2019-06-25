@@ -67,12 +67,10 @@ spec:
             - "--replSet"
             - "configserver"
             - "--auth"
-            #- "--clusterAuthMode"
-            #- "keyFile"
+            - "--clusterAuthMode"
+            - "keyFile"
             - "--keyFile"
             - "/etc/secrets-volume/internal-auth-mongodb-keyfile"
-            # - "--setParameter"
-            # - "authenticationMechanisms=SCRAM-SHA-1"
           # resources:
           #   requests:
           #     cpu: 0.25

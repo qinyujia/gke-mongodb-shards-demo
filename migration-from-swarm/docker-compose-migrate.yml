@@ -3,7 +3,6 @@ services:
    ## Config Servers
   config0:
     image: mongo:3.6.4-jessie
-#    command: mongod --port 27018 --configsvr --wiredTigerCacheSizeGB 1 --replSet configserver
     command: mongod --port 37018 --configsvr --wiredTigerCacheSizeGB 1
     restart: always
     network_mode: host
@@ -24,7 +23,6 @@ services:
   ## Shards
   shard0:
     image: mongo:3.6.4-jessie
-#    command: mongod --port 27019 --shardsvr --wiredTigerCacheSizeGB 20 --replSet shard0
     command: mongod --port 37019 --wiredTigerCacheSizeGB 20
     restart: always
     network_mode: host
@@ -42,24 +40,3 @@ services:
       - shard0:10.40.80.146
       - config1:10.40.80.148
       - shard1:10.40.80.148
-  ## Router
-#  router0:
-#    image: mongo:3.6.4-jessie
-#    command: mongos --port 27017 --configdb configserver/config0:27018,config1:27018 --bind_ip_all
-#    command: mongos --port 37017  --configdb configserver/config0:37018,config1:37018 --bind_ip_all
-#    restart: always
-#    network_mode: host
-#    ports:
-#      - "37017"
-#    volumes:
-#      - ./scripts:/scripts
-#      - /yitu/hdd1/viid/qinyujia/mongodb/router0/db:/data/db
-#      - /yitu/hdd1/viid/qinyujia/mongodb/router0/configdb:/data/configdb
-#      - /etc/localtime:/etc/localtime
-#      - /etc/timezone:/etc/timezone
-#      - ./keyfile:/keyfile
-#    extra_hosts:
-#      - config0:10.40.80.146
-#      - shard0:10.40.80.146
-#      - config1:10.40.80.148
-#      - shard1:10.40.80.148
