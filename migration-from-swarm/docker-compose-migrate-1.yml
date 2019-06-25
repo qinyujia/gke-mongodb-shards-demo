@@ -1,0 +1,63 @@
+version: '2'
+services:
+   ## Config Servers
+  config1:
+    image: mongo:3.6.4-jessie
+    command: mongod --port 37018 --configsvr --wiredTigerCacheSizeGB 1
+    restart: always
+    network_mode: host
+    ports:
+      - "37018"  
+    volumes:
+      - ./scripts:/scripts
+      - /yitu/hdd1/viid/qinyujia/mongodb/config1/db:/data/db
+      - /yitu/hdd1/viid/qinyujia/mongodb/config1/configdb:/data/configdb
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
+      - ./keyfile:/keyfile
+    extra_hosts:
+      - config0:10.40.80.146
+      - shard0:10.40.80.146
+      - config1:10.40.80.148
+      - shard1:10.40.80.148
+  ## Shards
+  shard1:
+    image: mongo:3.6.4-jessie
+    command: mongod --port 37019 --wiredTigerCacheSizeGB 20
+    restart: always
+    network_mode: host
+    ports:
+      - "37019"
+    volumes:
+      - ./scripts:/scripts
+      - /yitu/hdd1/viid/qinyujia/mongodb/shard1/db:/data/db
+      - /yitu/hdd1/viid/qinyujia/mongodb/shard1/configdb:/data/configdb
+      - /etc/localtime:/etc/localtime
+      - /etc/timezone:/etc/timezone
+      - ./keyfile:/keyfile
+    extra_hosts:
+      - config0:10.40.80.146
+      - shard0:10.40.80.146
+      - config1:10.40.80.148
+      - shard1:10.40.80.148
+  ## Router
+#  router1:
+#    image: mongo:3.6.4-jessie
+#    command: mongos --port 37017 --configdb configserver/config0:37018,config1:37018 --bind_ip_all
+#    command: mongos --port 37017  --configdb configserver/config0:37018,config1:37018 --bind_ip_all
+#    restart: always
+#    network_mode: host
+#    ports:
+#      - "37017"
+#    volumes:
+#      - ./scripts:/scripts
+#      - /yitu/hdd1/viid/qinyujia/mongodb/router1/db:/data/db
+#      - /yitu/hdd1/viid/qinyujia/mongodb/router1/configdb:/data/configdb
+#      - /etc/localtime:/etc/localtime
+#      - /etc/timezone:/etc/timezone
+#      - ./keyfile:/keyfile
+#    extra_hosts:
+#      - config0:10.40.80.146
+#      - shard0:10.40.80.146
+#      - config1:10.40.80.148
+#      - shard1:10.40.80.148
